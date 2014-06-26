@@ -1,0 +1,7 @@
+<searchable
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:label="@string/hello_world"
+    android:imeOptions="actionSearch"
+    android:searchMode="showSearchLabelAsBadge"
+    android:inputType="text"
+    android:voiceSearchMode="showVoiceSearchButton|launchRecognizer" />
