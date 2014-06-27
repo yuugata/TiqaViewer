@@ -11,6 +11,7 @@ import com.android.volley.toolbox.Volley;
 public class TiqaViewApplication extends Application {
     private RequestQueue mRequestQueue;
 
+
     @Override
     public void onCreate() {
         super.onCreate();

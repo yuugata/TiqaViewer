@@ -1,5 +1,8 @@
 package com.android.tiqaview;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,6 +18,8 @@ import com.android.tiqaview.tiqav.Tiqav;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +32,7 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
     public static final String SEARCH_QUERY = "search_query";
     private static final String TAG = "SearchFragment";
 
-    //private RequestQueue mRequestQueue;
+    private RequestQueue mRequestQueue;
     private ListView mResultListView;
 
     public SearchFragment() {
@@ -37,7 +42,7 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mRequestQueue = ((TiqaViewApplication)getActivity().getApplication()).getRequestQueue();
        // setHasOptionsMenu(true);
     }
 ///*
@@ -62,13 +67,16 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
         Log.d(TAG,query);
         SearchRequest request = Tiqav.createSearchRequest(query, this,this);
         request.setTag(query);
-        ((TiqaViewApplication)getActivity().getApplication()).getRequestQueue().add(request);
+       mRequestQueue.add(request);
 
     }
 
     @Override
     public void onResponse(List<Item> items) {
+
         SearchAdapter adapter = new SearchAdapter(getActivity(),R.layout.search_item,items);
+        adapter.setImageLoader(new ImageLoader(mRequestQueue,
+                new LruImageCache(((ActivityManager)getActivity().getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass())));
         mResultListView.setAdapter(adapter);
     }
 
