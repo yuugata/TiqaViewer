@@ -7,19 +7,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.android.tiqaview.tiqav.TiqavItem;
+import com.android.tiqaview.tiqav.Item;
 
 import java.util.List;
 
 /**
  *
  */
-public class SearchAdapter extends ArrayAdapter<TiqavItem>{
+public class SearchAdapter extends ArrayAdapter<Item>{
 
     private LayoutInflater mInflater;
     private int mLayoutResource;
 
-    public SearchAdapter(Context context, int resource, List<TiqavItem> objects) {
+    public SearchAdapter(Context context, int resource, List<Item> objects) {
         super(context, resource,objects);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLayoutResource = resource;
@@ -39,8 +39,8 @@ public class SearchAdapter extends ArrayAdapter<TiqavItem>{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        TiqavItem item = getItem(position);
-        holder.descriptionView.setText(item.getSource_url());
+        Item item = getItem(position);
+        holder.descriptionView.setText(item.getSourceUrl());
 
         return convertView;
     }
