@@ -10,8 +10,6 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:numColumns="3"
-        android:paddingTop="@dimen/item_default_padding_top"
-        android:paddingBottom="@dimen/item_default_padding_bottom"
         android:paddingRight="@dimen/item_default_padding"
         android:paddingLeft="@dimen/item_default_padding"
         android:verticalSpacing="@dimen/item_default_padding"
