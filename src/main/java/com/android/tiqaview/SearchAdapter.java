@@ -41,7 +41,6 @@ public class SearchAdapter extends ArrayAdapter<Item>{
             //view = (SearchItemView) mInflater.inflate(mLayoutResource,null);
             convertView = mInflater.inflate(mLayoutResource,null);
         holder = new ViewHolder();
-            holder.descriptionView = (TextView) convertView.findViewById(R.id.description);
             holder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
             convertView.setTag(holder);
         }else{
@@ -54,7 +53,6 @@ public class SearchAdapter extends ArrayAdapter<Item>{
         }
 
         Item item = getItem(position);
-        holder.descriptionView.setText(item.getSourceUrl());
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.imageView,R.drawable.ic_launcher,R.drawable.ic_launcher);
        holder.imageView.setTag( mImageLoader.get(item.getThumbnailUrl(),listener));
 
@@ -62,7 +60,6 @@ public class SearchAdapter extends ArrayAdapter<Item>{
     }
 
     private static class ViewHolder {
-        TextView descriptionView;
         ImageView imageView;
     }
 }

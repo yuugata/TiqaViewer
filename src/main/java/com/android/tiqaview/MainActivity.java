@@ -23,9 +23,6 @@ public class MainActivity extends ActionBarActivity {
 
     private static final String TAG = "MainActivity";
 
-    private static final String SEARCH_FRAGMENT_TAG = "search_fragment";
-    private static final String HOME_FRAGMENT_TAG = "home_fragment";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG,"on create");

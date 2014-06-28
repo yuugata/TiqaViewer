@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,7 +34,8 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
     private static final String TAG = "SearchFragment";
 
     private RequestQueue mRequestQueue;
-    private ListView mResultListView;
+    //private ListView mResultListView;
+    private GridView mGridView;
 
     public SearchFragment() {
 
@@ -51,7 +53,7 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
 
         View rootView = inflater.inflate(R.layout.fragment_search, container,false);
         //mHelloTextView = (TextView) rootView.findViewById(R.id.hello_txt);
-        mResultListView = (ListView) rootView.findViewById(R.id.listView);
+        mGridView = (GridView) rootView.findViewById(R.id.gridView);
 
         Bundle args = getArguments();
         if(args != null){
@@ -77,7 +79,7 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
         SearchAdapter adapter = new SearchAdapter(getActivity(),R.layout.search_item,items);
         adapter.setImageLoader(new ImageLoader(mRequestQueue,
                 new LruImageCache(((ActivityManager)getActivity().getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass())));
-        mResultListView.setAdapter(adapter);
+        mGridView.setAdapter(adapter);
     }
 
     @Override
