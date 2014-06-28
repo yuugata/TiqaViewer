@@ -83,5 +83,6 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
     @Override
     public void onErrorResponse(VolleyError volleyError) {
         Toast.makeText(getActivity(),volleyError.getMessage(),Toast.LENGTH_LONG).show();
+        Log.e(TAG,volleyError.toString());
     }
 }

@@ -14,10 +14,11 @@ public class LruImageCache implements ImageLoader.ImageCache{
 
     public LruImageCache(int cacheSize) {
         mCache = new LruCache<String, Bitmap>(cacheSize) {
+            /*
             @Override
             protected int sizeOf(String key, Bitmap value) {
                 return value.getByteCount()/1024;
-            }
+            }*/
         };
 
     }

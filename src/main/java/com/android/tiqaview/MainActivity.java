@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity {
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
+/*
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
         });
-
+*/
         searchView.setIconifiedByDefault(false);
         searchView.setSubmitButtonEnabled(false);
 // */
