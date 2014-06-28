@@ -5,11 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.tiqaview.tiqav.Item;
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.List;
@@ -41,7 +38,7 @@ public class SearchAdapter extends ArrayAdapter<Item>{
             //view = (SearchItemView) mInflater.inflate(mLayoutResource,null);
             convertView = mInflater.inflate(mLayoutResource,null);
         holder = new ViewHolder();
-            holder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            holder.imageView = (SquareImageView) convertView.findViewById(R.id.imageView);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
@@ -60,6 +57,7 @@ public class SearchAdapter extends ArrayAdapter<Item>{
     }
 
     private static class ViewHolder {
-        ImageView imageView;
+        SquareImageView imageView;
     }
+
 }
