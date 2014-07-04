@@ -12,7 +12,7 @@ public class Item {
     private String ext;
     private int height;
     private int width;
-private String source_url;
+    private String source_url;
 
     private Item() {
     }
@@ -33,7 +33,7 @@ private String source_url;
         return width;
     }
 
-    public String getSourceUrl()  {
+    public String getSourceUrl() {
         return source_url;
     }
 
@@ -41,7 +41,7 @@ private String source_url;
         return "http://img.tiqav.com/" + id + ".th.jpg";
     }
 
-    public String getOriginalUrl(){
+    public String getOriginalUrl() {
         return "http://img.tiqav.com/" + id + "." + ext;
     }
 

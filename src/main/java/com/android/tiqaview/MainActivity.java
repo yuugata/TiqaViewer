@@ -25,27 +25,27 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG,"on create");
+        Log.d(TAG, "on create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
 
             // /*
-           FragmentManager fm = getSupportFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction()
                     .add(R.id.container, new HomeFragment())
                     .commit();
-                    // */
+            // */
             //fm.addOnBackStackChangedListener(this);
         }
 
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         handleIntent(intent);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        Log.d(TAG,"on new intent");
+        Log.d(TAG, "on new intent");
         super.onNewIntent(intent);
         setIntent(intent);
         handleIntent(intent);
@@ -54,12 +54,12 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        Log.d(TAG,"on create option men");
+        Log.d(TAG, "on create option men");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        SearchManager searchManager=(SearchManager)getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem =  menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
 
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
@@ -101,17 +101,16 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-
-    private void handleIntent(Intent intent){
+    private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-           startSearch(query);
+            startSearch(query);
         }
     }
 
-    private void startSearch(String query){
+    private void startSearch(String query) {
         Bundle bundle = new Bundle();
-        bundle.putString(SearchFragment.SEARCH_QUERY,query);
+        bundle.putString(SearchFragment.SEARCH_QUERY, query);
 
         SearchFragment fragment;
 
@@ -119,8 +118,8 @@ public class MainActivity extends ActionBarActivity {
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment,"search");
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment, "search");
 
         fragmentTransaction.commit();
     }

@@ -31,7 +31,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container,false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         Log.d(TAG, "createView");
 
         return rootView;
@@ -40,8 +40,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        Log.d(TAG,"onCreate option menu");
-        MenuItem searchItem =  menu.findItem(R.id.action_search);
+        Log.d(TAG, "onCreate option menu");
+        MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
     }
 }

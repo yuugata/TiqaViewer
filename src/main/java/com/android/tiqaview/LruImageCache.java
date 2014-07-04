@@ -8,7 +8,7 @@ import com.android.volley.toolbox.ImageLoader;
 /**
  * Created by Author on 14/06/27.
  */
-public class LruImageCache implements ImageLoader.ImageCache{
+public class LruImageCache implements ImageLoader.ImageCache {
 
     private LruCache<String, Bitmap> mCache;
 
@@ -30,7 +30,7 @@ public class LruImageCache implements ImageLoader.ImageCache{
 
     @Override
     public void putBitmap(String s, Bitmap bitmap) {
-        mCache.put(s,bitmap);
+        mCache.put(s, bitmap);
 
     }
 }

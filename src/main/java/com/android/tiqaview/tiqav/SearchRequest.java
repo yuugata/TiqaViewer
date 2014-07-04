@@ -13,11 +13,11 @@ import java.util.List;
 /**
  *
  */
-public class SearchRequest extends JsonArrayRequest{
+public class SearchRequest extends JsonArrayRequest {
 
-    SearchRequest(String query,final Response.Listener<List<Item>> listener, Response.ErrorListener errorListener) {
+    SearchRequest(String query, final Response.Listener<List<Item>> listener, Response.ErrorListener errorListener) {
 
-        super("http://api.tiqav.com/search.json?q="+query,  new Response.Listener<JSONArray>() {
+        super("http://api.tiqav.com/search.json?q=" + query, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
                 listener.onResponse(TiqavObjectFactory.createItems(jsonArray));

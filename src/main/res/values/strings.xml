@@ -4,5 +4,6 @@
     <string name="app_name">TiqaView</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Setting...</string>
+    <string name="title_activity_photo_view">TiqaView</string>
 
 </resources>
