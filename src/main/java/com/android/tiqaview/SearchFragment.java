@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * 検索結果表示用
  */
-public class SearchFragment extends Fragment implements Response.Listener<List<Item>>, Response.ErrorListener {
+public class SearchFragment extends Fragment implements Response.Listener<List<Item>>, Response.ErrorListener, AdapterView.OnItemClickListener {
 
     public static final String SEARCH_QUERY = "search_query";
     private static final String TAG = "SearchFragment";
@@ -80,11 +81,19 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
         adapter.setImageLoader(new ImageLoader(mRequestQueue,
                 new LruImageCache(((ActivityManager)getActivity().getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass())));
         mGridView.setAdapter(adapter);
+        mGridView.setOnItemClickListener(this);
     }
 
     @Override
     public void onErrorResponse(VolleyError volleyError) {
         Toast.makeText(getActivity(),volleyError.getMessage(),Toast.LENGTH_LONG).show();
         Log.e(TAG,volleyError.toString());
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Item item = (Item) adapterView.getItemAtPosition(position);
+        Log.d(TAG,item.getOriginalUrl());
+
     }
 }

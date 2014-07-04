@@ -81,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
         });
 */
         searchView.setIconifiedByDefault(false);
-        searchView.setSubmitButtonEnabled(false);
+        searchView.setSubmitButtonEnabled(true);
 // */
         return super.onCreateOptionsMenu(menu);
     }
@@ -121,7 +121,6 @@ public class MainActivity extends ActionBarActivity {
 
         FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment,"search");
-
 
         fragmentTransaction.commit();
     }
