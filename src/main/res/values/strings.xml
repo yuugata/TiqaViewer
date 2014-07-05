@@ -5,5 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Setting...</string>
     <string name="title_activity_photo_view">TiqaView</string>
+    <string name="action_save">Save</string>
+    <string name="action_share">Share</string>
+    <string name="saved_file">The picture was saved. [%1$s]</string>
+    <string name="failed_to_save">Failed to save the picture.</string>
 
 </resources>

@@ -4,8 +4,15 @@
     tools:context=".PhotoViewActivity">
 
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+        android:id="@+id/action_save"
+        android:title="@string/action_save"
+        android:icon="@android:drawable/ic_menu_save"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/action_share"
+        android:icon="@android:drawable/ic_menu_share"
+        android:orderInCategory="101"
+        app:showAsAction="ifRoom" />
 </menu>

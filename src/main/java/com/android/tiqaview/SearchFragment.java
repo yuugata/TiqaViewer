@@ -97,6 +97,7 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
         Item item = (Item) adapterView.getItemAtPosition(position);
         Intent intent = new Intent(getActivity().getApplicationContext(), PhotoViewActivity.class);
         intent.putExtra(PhotoViewActivity.IMAGE_URL, item.getOriginalUrl());
+        intent.putExtra(PhotoViewActivity.IMAGE_TITLE,item.getId());
         startActivity(intent);
 
     }
