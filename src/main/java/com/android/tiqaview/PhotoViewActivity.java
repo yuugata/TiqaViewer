@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.tiqaview.tiqav.Item;
@@ -18,8 +19,6 @@ public class PhotoViewActivity extends ActionBarActivity {
     public static final String ITEMS = "items";
     public static final String SHOW_INDEX = "show_index";
 
-    private String mImageTitle = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +30,14 @@ public class PhotoViewActivity extends ActionBarActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.photo_view, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "on options item selected " + item.getItemId());
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
@@ -42,7 +48,7 @@ public class PhotoViewActivity extends ActionBarActivity {
 
     private void handleIntent(Intent intent) {
         List<Item> items = (List<Item>) intent.getSerializableExtra(ITEMS);
-        int index = intent.getIntExtra(SHOW_INDEX,0);
+        int index = intent.getIntExtra(SHOW_INDEX, 0);
         if (items == null || items.size() < 1) {
             Log.e(TAG, "Items are null or empty.");
             finish();

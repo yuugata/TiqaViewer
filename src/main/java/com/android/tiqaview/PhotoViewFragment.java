@@ -1,11 +1,15 @@
 package com.android.tiqaview;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +33,7 @@ import uk.co.senab.photoview.PhotoView;
 /**
  *
  */
-public class PhotoViewFragment extends Fragment implements Response.Listener<Bitmap>, Response.ErrorListener {
+public class PhotoViewFragment extends Fragment implements Response.Listener<Bitmap>, Response.ErrorListener, ShareActionProvider.OnShareTargetSelectedListener {
     private static final String TAG = "PhotoViewFragment";
     public static final String IMAGE_URL = "image_url";
     public static final String IMAGE_TITLE = "image_title";
@@ -38,6 +42,8 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     private PhotoView mPhotoView = null;
     private Bitmap mDownloadedImageBitmap = null;
     private String mImageTitle = null;
+    private File mImageFile = null;
+    private ShareActionProvider mShareActionProvider = null;
 
     public PhotoViewFragment() {
     }
@@ -75,12 +81,12 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     @Override
     public void onResponse(Bitmap bitmap) {
         Log.d(TAG, "--- on Response ---");
-        if (mPhotoView == null){
-            Log.e(TAG,"null view");
+        if (mPhotoView == null) {
+            Log.e(TAG, "null view");
             return;
         }
-        if(!isAdded()){
-            return ;
+        if (!isAdded()) {
+            return;
         }
         mDownloadedImageBitmap = bitmap;
         //mImageView.setImageBitmap(bitmap);
@@ -94,54 +100,87 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.photo_view, menu);
-        Log.d(TAG, "create option menu" + mImageTitle);
+
+        MenuItem item = menu.findItem(R.id.action_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        mShareActionProvider.setOnShareTargetSelectedListener(this);
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("image/jpg");
+        mImageFile = createFileObj();
+        Uri uri = Uri.fromFile(mImageFile);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        setShareIntent(shareIntent);
+
+        Log.d(TAG, "create option menu :" + mImageTitle);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "on option item select");
         switch (item.getItemId()) {
             case R.id.action_save:
                 saveBitmap(mDownloadedImageBitmap);
                 return true;
-
+            case R.id.action_share:
+                // shareBitmap(mDownloadedImageBitmap);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveBitmap(Bitmap b) {
+    @Override
+    public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
+        if (!mImageFile.exists()) {
+            File file = saveBitmap(mDownloadedImageBitmap);
+        }
+        return false;
+    }
+
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            Log.d(TAG, "set share intent");
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    private File createFileObj() {
+        final File pubDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        if (pubDir == null) return null;
+
+        String fileName = mImageTitle;
+        if (TextUtils.isEmpty(fileName)) {
+            long utc = System.currentTimeMillis();
+            fileName = Long.toString(utc);
+        }
+        fileName = fileName + ".jpg";
+        File file = new File(pubDir, fileName);
+        return file;
+    }
+
+    private File saveBitmap(Bitmap b) {
         if (b == null)
-            return;
+            return null;
         try {
-            final File pubDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            if (pubDir == null) return;
-
-            String fileName = mImageTitle;
-            if (TextUtils.isEmpty(fileName)) {
-                long utc = System.currentTimeMillis();
-                fileName = Long.toString(utc);
-            }
-            fileName = fileName + ".jpg";
-
             FileOutputStream fos = null;
-            fos = new FileOutputStream(new File(pubDir, fileName));
+            File file = mImageFile;
+            fos = new FileOutputStream(file);
 
             b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 
             fos.close();
 
-            Toast.makeText(getActivity(), getString(R.string.saved_file, pubDir.getPath() + fileName), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.saved_file, file.getAbsolutePath()), Toast.LENGTH_LONG).show();
+            return file;
         } catch (Exception e) {
             Log.e(TAG, e.toString());
             Toast.makeText(getActivity(), R.string.failed_to_save, Toast.LENGTH_LONG).show();
         }
-
+        return null;
     }
+
+
 }

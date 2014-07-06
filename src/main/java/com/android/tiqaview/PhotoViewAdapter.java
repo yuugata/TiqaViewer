@@ -18,7 +18,7 @@ public class PhotoViewAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
-    public void setItems(List<Item> items){
+    public void setItems(List<Item> items) {
         mItems = items;
     }
 

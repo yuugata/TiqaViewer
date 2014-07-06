@@ -43,15 +43,12 @@ public class SearchFragment extends Fragment implements Response.Listener<ArrayL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = ((TiqaViewApplication) getActivity().getApplication()).getRequestQueue();
-        // setHasOptionsMenu(true);
     }
 
-    ///*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
-        //mHelloTextView = (TextView) rootView.findViewById(R.id.hello_txt);
         mGridView = (GridView) rootView.findViewById(R.id.gridView);
 
         Bundle args = getArguments();
@@ -84,7 +81,7 @@ public class SearchFragment extends Fragment implements Response.Listener<ArrayL
 
     @Override
     public void onErrorResponse(VolleyError volleyError) {
-        Toast.makeText(getActivity(), "Error response : "+volleyError.getMessage(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Error response : " + volleyError.getMessage(), Toast.LENGTH_LONG).show();
         Log.e(TAG, volleyError.toString());
     }
 
@@ -93,7 +90,7 @@ public class SearchFragment extends Fragment implements Response.Listener<ArrayL
         Item item = (Item) adapterView.getItemAtPosition(position);
         Intent intent = new Intent(getActivity().getApplicationContext(), PhotoViewActivity.class);
         intent.putExtra(PhotoViewActivity.ITEMS, mItems);
-        intent.putExtra(PhotoViewActivity.SHOW_INDEX,position);
+        intent.putExtra(PhotoViewActivity.SHOW_INDEX, position);
 
         startActivity(intent);
 
