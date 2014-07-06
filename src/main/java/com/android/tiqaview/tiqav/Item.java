@@ -3,10 +3,12 @@ package com.android.tiqaview.tiqav;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Tiqavの検索結果の要素
  */
-public class Item {
+public class Item implements Serializable {
 
     private String id;
     private String ext;

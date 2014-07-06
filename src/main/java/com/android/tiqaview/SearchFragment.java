@@ -3,7 +3,6 @@ package com.android.tiqaview;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.tiqaview.tiqav.Item;
@@ -21,23 +19,21 @@ import com.android.tiqaview.tiqav.Tiqav;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 検索結果表示用
  */
-public class SearchFragment extends Fragment implements Response.Listener<List<Item>>, Response.ErrorListener, AdapterView.OnItemClickListener {
+public class SearchFragment extends Fragment implements Response.Listener<ArrayList<Item>>, Response.ErrorListener, AdapterView.OnItemClickListener {
 
     public static final String SEARCH_QUERY = "search_query";
     private static final String TAG = "SearchFragment";
 
     private RequestQueue mRequestQueue;
-    //private ListView mResultListView;
     private GridView mGridView;
+    private ArrayList<Item> mItems;
 
     public SearchFragment() {
 
@@ -77,18 +73,18 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
     }
 
     @Override
-    public void onResponse(List<Item> items) {
-
+    public void onResponse(ArrayList<Item> items) {
         SearchAdapter adapter = new SearchAdapter(getActivity(), R.layout.search_item, items);
         adapter.setImageLoader(new ImageLoader(mRequestQueue,
                 new LruImageCache(((ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass())));
         mGridView.setAdapter(adapter);
         mGridView.setOnItemClickListener(this);
+        mItems = items;
     }
 
     @Override
     public void onErrorResponse(VolleyError volleyError) {
-        Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Error response : "+volleyError.getMessage(), Toast.LENGTH_LONG).show();
         Log.e(TAG, volleyError.toString());
     }
 
@@ -96,8 +92,9 @@ public class SearchFragment extends Fragment implements Response.Listener<List<I
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Item item = (Item) adapterView.getItemAtPosition(position);
         Intent intent = new Intent(getActivity().getApplicationContext(), PhotoViewActivity.class);
-        intent.putExtra(PhotoViewActivity.IMAGE_URL, item.getOriginalUrl());
-        intent.putExtra(PhotoViewActivity.IMAGE_TITLE,item.getId());
+        intent.putExtra(PhotoViewActivity.ITEMS, mItems);
+        intent.putExtra(PhotoViewActivity.SHOW_INDEX,position);
+
         startActivity(intent);
 
     }

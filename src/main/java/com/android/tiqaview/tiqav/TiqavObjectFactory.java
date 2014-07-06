@@ -5,14 +5,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 class TiqavObjectFactory {
 
-    static List<Item> createItems(JSONArray jsonArray) {
+    static ArrayList<Item> createItems(JSONArray jsonArray) {
         int length = jsonArray.length();
 
-        List<Item> items = new ArrayList<Item>();
+        ArrayList<Item> items = new ArrayList<Item>();
 
         if (length <= 0) {
             return null;

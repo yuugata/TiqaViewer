@@ -1,24 +1,22 @@
 package com.android.tiqaview;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.Menu;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+
+import com.android.tiqaview.tiqav.Item;
+
+import java.util.List;
 
 public class PhotoViewActivity extends ActionBarActivity {
 
-    public static final String IMAGE_URL = "image_url";
-    public static final String IMAGE_TITLE = "image_title";
+    private static final String TAG = "PhotoViewActivity";
+    public static final String ITEMS = "items";
+    public static final String SHOW_INDEX = "show_index";
 
     private String mImageTitle = null;
 
@@ -29,55 +27,35 @@ public class PhotoViewActivity extends ActionBarActivity {
 
         Intent intent = getIntent();
         handleIntent(intent);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.photo_view, menu);
-        return true;
-    }
-*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-                 case android.R.id.home:
-                     finish();
-                     break;
+            case android.R.id.home:
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void handleIntent(Intent intent) {
-        mImageTitle = intent.getStringExtra(IMAGE_TITLE);
-        String url = intent.getStringExtra(IMAGE_URL);
-        if (TextUtils.isEmpty(url)) {
+        List<Item> items = (List<Item>) intent.getSerializableExtra(ITEMS);
+        int index = intent.getIntExtra(SHOW_INDEX,0);
+        if (items == null || items.size() < 1) {
+            Log.e(TAG, "Items are null or empty.");
             finish();
-            return;
         }
-        loadImage(url);
+        createPhotoViewPager(items, index);
     }
 
-    private void loadImage(String url) {
-        Bundle bundle = new Bundle();
-        bundle.putString(PhotoViewFragment.IMAGE_URL, url);
-        bundle.putString(PhotoViewFragment.IMAGE_TITLE,mImageTitle);
-
-        PhotoViewFragment fragment;
-
-        fragment = new PhotoViewFragment();
-        fragment.setArguments(bundle);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment, null);
-
-        fragmentTransaction.commit();
+    private void createPhotoViewPager(List<Item> items, int homeIndex) {
+        FragmentManager fm = getSupportFragmentManager();
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        final PhotoViewAdapter adapter = new PhotoViewAdapter(fm);
+        adapter.setItems(items);
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(homeIndex);
     }
-
 }

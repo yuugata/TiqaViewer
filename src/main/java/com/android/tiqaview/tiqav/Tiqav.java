@@ -4,14 +4,14 @@ import com.android.volley.Response;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Tiqav
  */
 public class Tiqav {
 
-    public static SearchRequest createSearchRequest(String query, Response.Listener<List<Item>> listener, Response.ErrorListener errorListener) {
+    public static SearchRequest createSearchRequest(String query, Response.Listener<ArrayList<Item>> listener, Response.ErrorListener errorListener) {
 
         return new SearchRequest(encode(query), listener, errorListener);
     }

@@ -1,10 +1,11 @@
 package com.android.tiqaview;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.android.tiqaview.tiqav.Item;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,7 +24,7 @@ import com.android.volley.toolbox.ImageRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import uk.co.senab.photoview.PhotoViewAttacher;
+import uk.co.senab.photoview.PhotoView;
 
 /**
  *
@@ -36,8 +35,7 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     public static final String IMAGE_TITLE = "image_title";
 
     private RequestQueue mRequestQueue;
-    private PhotoViewAttacher mAttacher = null;
-    private ImageView mImageView = null;
+    private PhotoView mPhotoView = null;
     private Bitmap mDownloadedImageBitmap = null;
     private String mImageTitle = null;
 
@@ -48,12 +46,7 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = ((TiqaViewApplication) getActivity().getApplication()).getRequestQueue();
-        Bundle args = getArguments();
-        if (args != null && savedInstanceState == null) {
-            mImageTitle = args.getString(IMAGE_TITLE);
-            String url = args.getString(IMAGE_URL);
-            loadImage(url);
-        }
+
         setHasOptionsMenu(true);
         //getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -62,8 +55,13 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_photo, container, false);
-        mImageView = (ImageView) rootView.findViewById(R.id.imageView);
-
+        mPhotoView = (PhotoView) rootView.findViewById(R.id.photoView);
+        Bundle args = getArguments();
+        if (args != null) {
+            mImageTitle = args.getString(IMAGE_TITLE);
+            String url = args.getString(IMAGE_URL);
+            loadImage(url);
+        }
         return rootView;
     }
 
@@ -77,11 +75,17 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     @Override
     public void onResponse(Bitmap bitmap) {
         Log.d(TAG, "--- on Response ---");
-        if (mImageView == null)
+        if (mPhotoView == null){
+            Log.e(TAG,"null view");
             return;
+        }
+        if(!isAdded()){
+            return ;
+        }
         mDownloadedImageBitmap = bitmap;
-        mImageView.setImageBitmap(bitmap);
-        mAttacher = new PhotoViewAttacher(mImageView);
+        //mImageView.setImageBitmap(bitmap);
+        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+        mPhotoView.setImageDrawable(drawable);
     }
 
     @Override
@@ -92,21 +96,19 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mAttacher != null)
-            mAttacher.cleanup();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.photo_view,menu);
-        Log.d(TAG,"create option menu"+mImageTitle);
+        inflater.inflate(R.menu.photo_view, menu);
+        Log.d(TAG, "create option menu" + mImageTitle);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_save :
+        switch (item.getItemId()) {
+            case R.id.action_save:
                 saveBitmap(mDownloadedImageBitmap);
                 return true;
 
@@ -114,15 +116,15 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveBitmap(Bitmap b){
-        if(b == null)
+    private void saveBitmap(Bitmap b) {
+        if (b == null)
             return;
         try {
             final File pubDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            if (pubDir == null) return ;
+            if (pubDir == null) return;
 
             String fileName = mImageTitle;
-            if(TextUtils.isEmpty(fileName)){
+            if (TextUtils.isEmpty(fileName)) {
                 long utc = System.currentTimeMillis();
                 fileName = Long.toString(utc);
             }
@@ -135,10 +137,10 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
 
             fos.close();
 
-            Toast.makeText(getActivity(),getString(R.string.saved_file,fileName),Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.saved_file, pubDir.getPath() + fileName), Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.e(TAG, e.toString());
-            Toast.makeText(getActivity(),R.string.failed_to_save,Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.failed_to_save, Toast.LENGTH_LONG).show();
         }
 
     }
