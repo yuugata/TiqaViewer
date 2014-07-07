@@ -4,5 +4,18 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
+    <style name="PhotoViewTheme" parent="Theme.AppCompat">
+       <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/PhotoViewActionBar</item>
+        <item name="actionBarStyle">@style/PhotoViewActionBar</item>
+
+    </style>
+    <style name="PhotoViewActionBar" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@color/actionbar_transparent</item>
+        <item name="background">@color/actionbar_transparent</item>
+    </style>
+
+
 
 </resources>

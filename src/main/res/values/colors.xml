@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="bg_color_light">#e5e5e5</color>
+    <color name="actionbar_transparent">#88000000</color>
 </resources>

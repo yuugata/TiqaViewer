@@ -30,6 +30,7 @@
         </activity>
         <activity
             android:name="com.android.tiqaview.PhotoViewActivity"
+           android:theme="@style/PhotoViewTheme"
             android:label="@string/title_activity_photo_view" />
         <activity
             android:name="com.android.tiqaview.SearchResultActivity"

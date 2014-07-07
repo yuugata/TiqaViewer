@@ -23,9 +23,10 @@ public class SearchResultActivity extends ActionBarActivity {
 
     private static final String TAG = "SearchResultActivity";
     private String mQuery = "test";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG,"oncreate");
+        Log.d(TAG,"on create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
@@ -35,6 +36,7 @@ public class SearchResultActivity extends ActionBarActivity {
         Intent intent = getIntent();
         handleIntent(intent);
     }
+
     @Override
     protected void onNewIntent(Intent intent) {
         Log.d(TAG, "on new intent");
@@ -68,6 +70,7 @@ public class SearchResultActivity extends ActionBarActivity {
             mQuery = query;
         }
     }
+
     private void startSearch(String query) {
         Bundle bundle = new Bundle();
         bundle.putString(SearchFragment.SEARCH_QUERY, query);
