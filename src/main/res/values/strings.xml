@@ -9,5 +9,6 @@
     <string name="action_share">Share</string>
     <string name="saved_file">The picture was saved. [%1$s]</string>
     <string name="failed_to_save">Failed to save the picture.</string>
+    <string name="title_activity_search_result">Search</string>
 
 </resources>
