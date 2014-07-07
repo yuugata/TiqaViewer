@@ -17,8 +17,6 @@ public class MainActivity extends ActionBarActivity {
 
     private static final String TAG = "MainActivity";
 
-    private SearchView searchView = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "on create");
@@ -44,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 

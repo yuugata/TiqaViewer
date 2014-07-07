@@ -54,7 +54,6 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
         mRequestQueue = ((TiqaViewApplication) getActivity().getApplication()).getRequestQueue();
 
         setHasOptionsMenu(true);
-        //getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -89,7 +88,6 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
             return;
         }
         mDownloadedImageBitmap = bitmap;
-        //mImageView.setImageBitmap(bitmap);
         Drawable drawable = new BitmapDrawable(getResources(), bitmap);
         mPhotoView.setImageDrawable(drawable);
     }
@@ -126,7 +124,6 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
                 saveBitmap(mDownloadedImageBitmap);
                 return true;
             case R.id.action_share:
-                // shareBitmap(mDownloadedImageBitmap);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -177,6 +174,7 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
             return file;
         } catch (Exception e) {
             Log.e(TAG, e.toString());
+            e.printStackTrace();
             Toast.makeText(getActivity(), R.string.failed_to_save, Toast.LENGTH_LONG).show();
         }
         return null;
