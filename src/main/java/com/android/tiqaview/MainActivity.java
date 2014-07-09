@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,8 +30,9 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new HomeFragment())
                     .commit();
         }
+        Intent intent = getIntent();
+        handleIntent(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,8 +53,8 @@ public class MainActivity extends ActionBarActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                if(searchView != null){
-                    searchView.setQuery("",false);
+                if (searchView != null) {
+                    searchView.setQuery("", false);
                 }
                 return false;
             }
@@ -64,6 +66,14 @@ public class MainActivity extends ActionBarActivity {
         });
 // */
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void handleIntent(Intent intent) {
+        Log.d(TAG, intent.toString());
+        String type = intent.getType();
+        if (!TextUtils.isEmpty(type) && type.startsWith("image/")) {
+            Log.d(TAG, "intent from other");
+        }
     }
 }
 

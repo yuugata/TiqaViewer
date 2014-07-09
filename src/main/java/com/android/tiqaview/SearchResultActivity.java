@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,11 +23,13 @@ import android.os.Build;
 public class SearchResultActivity extends ActionBarActivity {
 
     private static final String TAG = "SearchResultActivity";
-    private String mQuery = "test";
+    private String mQuery = "";
+
+    private boolean enableReturnMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG,"on create");
+        Log.d(TAG, "on create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
@@ -48,7 +51,7 @@ public class SearchResultActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.search_result, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -59,7 +62,7 @@ public class SearchResultActivity extends ActionBarActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
         searchView.setSubmitButtonEnabled(true);
-        searchView.setQuery(mQuery,false);
+        searchView.setQuery(mQuery, false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -68,17 +71,28 @@ public class SearchResultActivity extends ActionBarActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             startSearch(query);
             mQuery = query;
+        } else if (isImageTypeIntent(intent)) {
+            Log.d(TAG, "intent from other");
+            //mode = RESULT_IMAGE_MODE;
+            enableReturnMode = true;
         }
+    }
+
+    private boolean isImageTypeIntent(Intent i) {
+        String type = i.getType();
+        return (!TextUtils.isEmpty(type) && type.startsWith("image/"));
     }
 
     private void startSearch(String query) {
         Bundle bundle = new Bundle();
         bundle.putString(SearchFragment.SEARCH_QUERY, query);
+        bundle.putBoolean(SearchFragment.INTENT_KEY_ENABLE_RETURN, enableReturnMode);
 
         SearchFragment fragment;
 
         fragment = new SearchFragment();
         fragment.setArguments(bundle);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()

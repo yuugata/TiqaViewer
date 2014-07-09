@@ -1,5 +1,6 @@
 package com.android.tiqaview;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.tiqaview.tiqav.Item;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -27,6 +29,7 @@ import com.android.volley.toolbox.ImageRequest;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import uk.co.senab.photoview.PhotoView;
 
@@ -102,16 +105,18 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
         super.onCreateOptionsMenu(menu, inflater);
 
         MenuItem item = menu.findItem(R.id.action_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        mShareActionProvider.setOnShareTargetSelectedListener(this);
+        if (item != null) {
+            mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+            mShareActionProvider.setOnShareTargetSelectedListener(this);
 
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("image/jpg");
-        mImageFile = createFileObj();
-        Uri uri = Uri.fromFile(mImageFile);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        setShareIntent(shareIntent);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("image/jpg");
+            mImageFile = createFileObj();
+            Uri uri = Uri.fromFile(mImageFile);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            setShareIntent(shareIntent);
+        }
 
         Log.d(TAG, "create option menu :" + mImageTitle);
     }
@@ -121,9 +126,13 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
         Log.d(TAG, "on option item select");
         switch (item.getItemId()) {
             case R.id.action_save:
-                saveBitmap(mDownloadedImageBitmap);
+                saveBitmap(mImageFile, mDownloadedImageBitmap);
                 return true;
             case R.id.action_share:
+                break;
+            case R.id.action_result:
+                returnToActivity(mDownloadedImageBitmap);
+                getActivity().finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -132,7 +141,7 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     @Override
     public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
         if (!mImageFile.exists()) {
-            File file = saveBitmap(mDownloadedImageBitmap);
+            saveBitmap(mImageFile, mDownloadedImageBitmap);
         }
         return false;
     }
@@ -158,16 +167,13 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
         return file;
     }
 
-    private File saveBitmap(Bitmap b) {
-        if (b == null)
+    private File saveBitmap( File file,Bitmap b) {
+        if (file == null || b == null)
             return null;
         try {
-            FileOutputStream fos = null;
-            File file = mImageFile;
+            FileOutputStream fos;
             fos = new FileOutputStream(file);
-
             b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
             fos.close();
 
             Toast.makeText(getActivity(), getString(R.string.saved_file, file.getAbsolutePath()), Toast.LENGTH_LONG).show();
@@ -178,6 +184,15 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
             Toast.makeText(getActivity(), R.string.failed_to_save, Toast.LENGTH_LONG).show();
         }
         return null;
+    }
+
+    private void returnToActivity(Bitmap bitmap) {
+        Intent intent = getActivity().getIntent();
+        File file = createFileObj();
+        if(saveBitmap(file, bitmap) != null){
+            intent.setData(Uri.fromFile(file));
+            getActivity().setResult(Activity.RESULT_OK, intent);
+        }
     }
 
 
