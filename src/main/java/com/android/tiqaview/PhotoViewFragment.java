@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,11 +34,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  *
  */
-public class PhotoViewFragment extends Fragment implements Response.Listener<Bitmap>, Response.ErrorListener, ShareActionProvider.OnShareTargetSelectedListener {
+public class PhotoViewFragment extends Fragment implements Response.Listener<Bitmap>, Response.ErrorListener, ShareActionProvider.OnShareTargetSelectedListener{
     private static final String TAG = "PhotoViewFragment";
     public static final String IMAGE_URL = "image_url";
     public static final String IMAGE_TITLE = "image_title";
@@ -70,6 +73,14 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
             String url = args.getString(IMAGE_URL);
             loadImage(url);
         }
+
+        mPhotoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+            @Override
+            public void onViewTap(View view, float v, float v2) {
+                toggleActionBarVisibility();
+            }
+        });
+
         return rootView;
     }
 
@@ -117,13 +128,10 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
             setShareIntent(shareIntent);
         }
-
-        Log.d(TAG, "create option menu :" + mImageTitle);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "on option item select");
         switch (item.getItemId()) {
             case R.id.action_save:
                 saveBitmap(mImageFile, mDownloadedImageBitmap);
@@ -144,6 +152,20 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
             saveBitmap(mImageFile, mDownloadedImageBitmap);
         }
         return false;
+    }
+
+    private void toggleActionBarVisibility(){
+        final ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+
+        if( actionBar == null){
+            return;
+        }
+
+        if(actionBar.isShowing()){
+            actionBar.hide();
+        }else{
+            actionBar.show();
+        }
     }
 
     private void setShareIntent(Intent shareIntent) {
@@ -194,6 +216,4 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
             getActivity().setResult(Activity.RESULT_OK, intent);
         }
     }
-
-
 }
