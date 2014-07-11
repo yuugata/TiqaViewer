@@ -48,7 +48,6 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     private PhotoView mPhotoView = null;
     private Bitmap mDownloadedImageBitmap = null;
     private String mImageTitle = null;
-    private File mImageFile = null;
     private ShareActionProvider mShareActionProvider = null;
 
     public PhotoViewFragment() {
@@ -120,11 +119,17 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
             mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
             mShareActionProvider.setOnShareTargetSelectedListener(this);
 
+            // dummy File
+            File pubDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            if(pubDir == null) return;
+            File file = new File(pubDir,mImageTitle + ".jpg");
+            if(file ==null) return;
+
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setType("image/jpg");
-            mImageFile = createFileObj();
-            Uri uri = Uri.fromFile(mImageFile);
+
+            Uri uri = Uri.fromFile(file);
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
             setShareIntent(shareIntent);
         }
@@ -134,7 +139,8 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                saveBitmap(mImageFile, mDownloadedImageBitmap);
+                File file = createFileObj();
+                saveBitmap(file, mDownloadedImageBitmap);
                 return true;
             case R.id.action_share:
                 break;
@@ -148,8 +154,9 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
 
     @Override
     public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
-        if (!mImageFile.exists()) {
-            saveBitmap(mImageFile, mDownloadedImageBitmap);
+        File file = createFileObj();
+        if (!file.exists()) {
+            saveBitmap(file, mDownloadedImageBitmap);
         }
         return false;
     }
@@ -176,16 +183,23 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     }
 
     private File createFileObj() {
-        final File pubDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        final File pubDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         if (pubDir == null) return null;
 
-        String fileName = mImageTitle;
-        if (TextUtils.isEmpty(fileName)) {
+        File saveDir = new File(pubDir,"TiqaView");
+        if(!saveDir.isDirectory() && !saveDir.mkdirs()){
+            return null;
+        }
+
+        String fileName;
+        if (TextUtils.isEmpty(mImageTitle)) {
             long utc = System.currentTimeMillis();
             fileName = Long.toString(utc);
+        }else{
+            fileName = mImageTitle;
         }
-        fileName = fileName + ".jpg";
-        File file = new File(pubDir, fileName);
+
+        File file = new File(saveDir, fileName + ".jpg");
         return file;
     }
 
