@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TiqaView</string>
+    <string name="app_name">TiqaViewer</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Setting...</string>
-    <string name="title_activity_photo_view">TiqaView</string>
+    <string name="title_activity_photo_view">Photo</string>
     <string name="action_save">Save</string>
     <string name="action_share">Share</string>
     <string name="saved_file">The picture was saved. [%1$s]</string>

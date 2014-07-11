@@ -186,7 +186,7 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
         final File pubDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         if (pubDir == null) return null;
 
-        File saveDir = new File(pubDir,"TiqaView");
+        File saveDir = new File(pubDir,"TiqaViewer");
         if(!saveDir.isDirectory() && !saveDir.mkdirs()){
             return null;
         }
