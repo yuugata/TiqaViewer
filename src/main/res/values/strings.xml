@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">TiqaViewer</string>
+    <string name="powered_by">powered by tiqav.com</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Setting...</string>
     <string name="title_activity_photo_view">Photo</string>
