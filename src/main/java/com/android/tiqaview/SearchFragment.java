@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.tiqaview.tiqav.Item;
@@ -45,6 +46,7 @@ public class SearchFragment extends Fragment implements Response.Listener<ArrayL
 
     private RequestQueue mRequestQueue;
     private GridView mGridView;
+    private ProgressBar mProgressBar = null ;
     private ArrayList<Item> mItems;
 
     public SearchFragment() {
@@ -62,7 +64,7 @@ public class SearchFragment extends Fragment implements Response.Listener<ArrayL
 
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         mGridView = (GridView) rootView.findViewById(R.id.gridView);
-
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.actionbar_progress);
         Bundle args = getArguments();
         if (args != null) {
             String query = args.getString(SEARCH_QUERY);
@@ -90,6 +92,10 @@ public class SearchFragment extends Fragment implements Response.Listener<ArrayL
         mGridView.setOnItemClickListener(this);
         mGridView.setOnItemLongClickListener(this);
         mItems = items;
+
+        if(mProgressBar != null){
+            mProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override

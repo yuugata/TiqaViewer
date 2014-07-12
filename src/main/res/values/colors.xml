@@ -3,4 +3,8 @@
     <color name="bg_color_light">#e5e5e5</color>
     <color name="actionbar_transparent">#88000000</color>
     <color name="home_title_text_color">#aa000000</color>
+    <color name="progress_dark">#0bf</color>
+    <color name="progress_normal">#eef</color>
+    <color name="progress_light">@android:color/white</color>
+
 </resources>
