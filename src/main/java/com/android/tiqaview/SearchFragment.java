@@ -42,7 +42,7 @@ public class SearchFragment extends Fragment implements Response.Listener<ArrayL
 
     public static final String INTENT_KEY_ENABLE_RETURN = "enable_return";
     private boolean enableReturnMode = false;
-    private static final int REQUEST_RETURN_IMAGE = 1;
+    private static final int REQUEST_RETURN_IMAGE = 2;
 
     private RequestQueue mRequestQueue;
     private GridView mGridView;

@@ -24,7 +24,6 @@ public class SearchResultActivity extends ActionBarActivity {
 
     private static final String TAG = "SearchResultActivity";
     private String mQuery = "";
-
     private boolean enableReturnMode = false;
 
     @Override
@@ -33,9 +32,9 @@ public class SearchResultActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
-        if (savedInstanceState == null) {
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        }
         Intent intent = getIntent();
         handleIntent(intent);
     }
@@ -47,7 +46,6 @@ public class SearchResultActivity extends ActionBarActivity {
         setIntent(intent);
         handleIntent(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,21 +64,27 @@ public class SearchResultActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home :
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void handleIntent(Intent intent) {
+        Log.d(TAG, "handle intent :" + intent.toString());
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String type = intent.getType();
+            if (!TextUtils.isEmpty(type) && type.startsWith("image/")) {
+                enableReturnMode = true;
+            }
+
             String query = intent.getStringExtra(SearchManager.QUERY);
             startSearch(query);
             mQuery = query;
-        } else if (isImageTypeIntent(intent)) {
-            Log.d(TAG, "intent from other");
-            //mode = RESULT_IMAGE_MODE;
-            enableReturnMode = true;
         }
-    }
-
-    private boolean isImageTypeIntent(Intent i) {
-        String type = i.getType();
-        return (!TextUtils.isEmpty(type) && type.startsWith("image/"));
     }
 
     private void startSearch(String query) {
