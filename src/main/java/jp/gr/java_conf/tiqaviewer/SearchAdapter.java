@@ -1,4 +1,4 @@
-package com.android.tiqaview;
+package jp.gr.java_conf.tiqaviewer;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.android.tiqaview.tiqav.Item;
+
+import jp.gr.java_conf.tiqaviewer.tiqav.Item;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.List;

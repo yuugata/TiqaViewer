@@ -1,11 +1,11 @@
-package com.android.tiqaview;
+package jp.gr.java_conf.tiqaviewer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.android.tiqaview.tiqav.Item;
+import jp.gr.java_conf.tiqaviewer.tiqav.Item;
 
 import java.util.List;
 

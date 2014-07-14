@@ -1,4 +1,4 @@
-package com.android.tiqaview;
+package jp.gr.java_conf.tiqaviewer;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.tiqaview.tiqav.Item;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,7 +31,6 @@ import com.android.volley.toolbox.ImageRequest;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;

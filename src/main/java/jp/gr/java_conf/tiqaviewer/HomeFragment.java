@@ -1,4 +1,4 @@
-package com.android.tiqaview;
+package jp.gr.java_conf.tiqaviewer;
 
 
 import android.os.Bundle;

@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/item_default_padding_top"
     android:paddingBottom="@dimen/item_default_padding_bottom">
 
-    <com.android.tiqaview.SquareImageView
+    <jp.gr.java_conf.tiqaviewer.SquareImageView
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

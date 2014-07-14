@@ -1,4 +1,4 @@
-package com.android.tiqaview.tiqav;
+package jp.gr.java_conf.tiqaviewer.tiqav;
 
 import com.android.volley.Response;
 

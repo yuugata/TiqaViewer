@@ -1,15 +1,10 @@
-package com.android.tiqaview;
+package jp.gr.java_conf.tiqaviewer;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,17 +14,15 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.tiqaview.tiqav.Item;
-import com.android.tiqaview.tiqav.SearchRequest;
-import com.android.tiqaview.tiqav.Tiqav;
+
+import jp.gr.java_conf.tiqaviewer.tiqav.Item;
+import jp.gr.java_conf.tiqaviewer.tiqav.SearchRequest;
+import jp.gr.java_conf.tiqaviewer.tiqav.Tiqav;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.ImageRequest;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**

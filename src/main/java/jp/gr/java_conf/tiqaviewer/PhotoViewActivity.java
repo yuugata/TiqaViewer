@@ -1,4 +1,4 @@
-package com.android.tiqaview;
+package jp.gr.java_conf.tiqaviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.tiqaview.tiqav.Item;
+
+import jp.gr.java_conf.tiqaviewer.tiqav.Item;
 
 import java.util.List;
 
