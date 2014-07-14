@@ -119,9 +119,7 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
             mShareActionProvider.setOnShareTargetSelectedListener(this);
 
             // dummy File
-            File pubDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            if(pubDir == null) return;
-            File file = new File(pubDir,mImageTitle + ".jpg");
+            File file = createFileObj(false);
             if(file ==null) return;
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -138,7 +136,7 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                File file = createFileObj(false);
+                File file = createFileObj(true);
                 saveBitmap(file, mDownloadedImageBitmap);
                 return true;
             case R.id.action_share:
