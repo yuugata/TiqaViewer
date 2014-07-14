@@ -138,7 +138,7 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                File file = createFileObj();
+                File file = createFileObj(false);
                 saveBitmap(file, mDownloadedImageBitmap);
                 return true;
             case R.id.action_share:
@@ -153,7 +153,7 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
 
     @Override
     public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
-        File file = createFileObj();
+        File file = createFileObj(true);
         if (!file.exists()) {
             saveBitmap(file, mDownloadedImageBitmap);
         }
@@ -181,13 +181,16 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
         }
     }
 
-    private File createFileObj() {
+    private File createFileObj(boolean mkdir ) {
         final File pubDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         if (pubDir == null) return null;
 
         File saveDir = new File(pubDir,"TiqaViewer");
-        if(!saveDir.isDirectory() && !saveDir.mkdirs()){
-            return null;
+
+        if(mkdir){
+            if(!saveDir.isDirectory() && !saveDir.mkdirs()){
+                return null;
+            }
         }
 
         String fileName;
@@ -223,7 +226,7 @@ public class PhotoViewFragment extends Fragment implements Response.Listener<Bit
 
     private void returnToActivity(Bitmap bitmap) {
         Intent intent = getActivity().getIntent();
-        File file = createFileObj();
+        File file = createFileObj(true);
         if(saveBitmap(file, bitmap) != null){
             intent.setData(Uri.fromFile(file));
             getActivity().setResult(Activity.RESULT_OK, intent);
