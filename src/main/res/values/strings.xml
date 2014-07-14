@@ -12,5 +12,7 @@
     <string name="failed_to_save">Failed to save the picture.</string>
     <string name="title_activity_search_result">Search</string>
     <string name="select_item">Select</string>
+    <string name="search_hint">Search</string>
+    <string name="search_label">Search</string>
 
 </resources>

@@ -3,4 +3,5 @@
     android:imeOptions="actionSearch"
     android:searchMode="showSearchLabelAsBadge"
     android:inputType="text"
+    android:hint="@string/search_hint"
     android:voiceSearchMode="showVoiceSearchButton|launchRecognizer" />

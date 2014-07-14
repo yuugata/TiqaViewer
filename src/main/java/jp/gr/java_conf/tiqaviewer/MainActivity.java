@@ -49,6 +49,7 @@ public class MainActivity extends ActionBarActivity {
 
         searchView.setIconifiedByDefault(false);
         searchView.setSubmitButtonEnabled(true);
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
