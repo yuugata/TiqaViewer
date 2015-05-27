@@ -14,16 +14,15 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
-import jp.gr.java_conf.tiqaviewer.tiqav.Item;
-import jp.gr.java_conf.tiqaviewer.tiqav.SearchRequest;
-import jp.gr.java_conf.tiqaviewer.tiqav.Tiqav;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
+
+import jp.gr.java_conf.tiqaviewer.tiqav.Item;
+import jp.gr.java_conf.tiqaviewer.tiqav.SearchRequest;
 
 /**
  * 検索結果表示用
@@ -71,7 +70,9 @@ public class SearchFragment extends Fragment implements Response.Listener<ArrayL
 
     private void startSearch(String query) {
         Log.d(TAG, query);
-        SearchRequest request = Tiqav.createSearchRequest(query, this, this);
+        SearchRequest request = new SearchRequest.Builder()
+                .setQuery(query).setListener(this).setErrorListener(this)
+                .build();
         request.setTag(query);
         mRequestQueue.add(request);
     }
